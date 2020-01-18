@@ -56,13 +56,15 @@ public class NumberToWordConverter {
         return Collections.unmodifiableMap(scales);
     }
 
-    public String convertAndEnrichOutput(Integer aNumberToConvertAndEnrich){
-        if(aNumberToConvertAndEnrich == null)
+    public String convertAndEnrichOutput(Integer aNumberToConvertAndEnrich) {
+        if (aNumberToConvertAndEnrich == null) {
             return "";
-        return EnrichmentUtil.insertAndPrefix(covert(aNumberToConvertAndEnrich));
+        }
+        return EnrichmentUtil.enrich(covert(aNumberToConvertAndEnrich));
     }
+
     private String covert(Integer aNumberToConvert) {
-       return (aNumberToConvert < SIMPLE_NBR_LIMIT ? convertSimpleNumbers(aNumberToConvert) : convertComplexNumbers(
+        return (aNumberToConvert < SIMPLE_NBR_LIMIT ? convertSimpleNumbers(aNumberToConvert) : convertComplexNumbers(
             aNumberToConvert));
     }
 
@@ -91,8 +93,16 @@ public class NumberToWordConverter {
         if (!(complexNumber > entry.getKey()) || !(entry.getValue().getHigh() != null && roundOffNbr < entry.getValue().getHigh())) {
             return EMPTY_STRING;
         }
+        //Trailing zeros need not to be converted, restricting here
         String reminderConversionOutput = remainder > 0 ? covert(remainder) : EMPTY_STRING;
-        return (covert(roundOffNbr / entry.getKey()) + SPACE + entry.getValue().getDescription() + SPACE + reminderConversionOutput);
+        return (
+            covert(
+                roundOffNbr / entry.getKey()) +
+                SPACE +
+                entry.getValue().getDescription() +
+                SPACE +
+                reminderConversionOutput
+        );
     }
 }
 
