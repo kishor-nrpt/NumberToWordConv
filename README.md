@@ -1,2 +1,4 @@
 # NumberToWordConv
-Number to word conv
+Number to word converter
+
+Simple Java Project built in IntelliJ idea
